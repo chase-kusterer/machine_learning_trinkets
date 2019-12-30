@@ -3,6 +3,7 @@ from sklearn.neighbors import KNeighborsRegressor
 from sklearn.neighbors import KNeighborsClassifier
 import matplotlib.pyplot as plt
 
+
 def optimal_neighbors(X_train, y_train, X_test, y_test,
                       response_type = 'reg',
                       max_neighbors = 20,
@@ -36,13 +37,12 @@ show_viz      : display or surpress k-neigbors visualization, default True
     test_accuracy = []
 
 
-    # building a visualization of 1 to 50 neighbors
+    # setting neighbor range
     neighbors_settings = range(1, max_neighbors + 1)
 
 
     for n_neighbors in neighbors_settings:
-        # building the model
-        
+        # building the model based on response variable type
         if response_type == 'reg':
             clf = KNeighborsRegressor(n_neighbors = n_neighbors)
             clf.fit(X_train, y_train)
@@ -62,6 +62,7 @@ show_viz      : display or surpress k-neigbors visualization, default True
         test_accuracy.append(clf.score(X_test, y_test))
 
 
+    # optionally displaying visualization
     if show_viz == True:
         # plotting the visualization
         fig, ax = plt.subplots(figsize=(12,8))
@@ -73,5 +74,5 @@ show_viz      : display or surpress k-neigbors visualization, default True
         plt.show()
     
     
-    print(f"""The optimal number of neighbors is {test_accuracy.index(max(test_accuracy)) + 1}""")
+    # returning optimal number of neighbors
     return test_accuracy.index(max(test_accuracy)) + 1
