@@ -1,13 +1,19 @@
 # required libraries
-from sklearn.neighbors import KNeighborsRegressor
-from sklearn.neighbors import KNeighborsClassifier
-import matplotlib.pyplot as plt
+import matplotlib.pyplot as plt # data visualization
+from sklearn.neighbors import KNeighborsRegressor # KNN for regression
+from sklearn.neighbors import KNeighborsClassifier # KNN for classification
+from sklearn.preprocessing import StandardScaler # standard scaler
 
 
-def optimal_neighbors(X_train, y_train, X_test, y_test,
-                      response_type = 'reg',
-                      max_neighbors = 20,
-                      show_viz = True):
+# optimal_neighbors function
+def optimal_neighbors(X_data,
+                      y_data,
+                      standardize = True,
+                      pct_test=0.25,
+                      seed=802,
+                      response_type='reg',
+                      max_neighbors=20,
+                      show_viz=True):
     """
 Exhaustively compute training and testing results for KNN across
 [1, max_neighbors]. Outputs the maximum test score and (by default) a
@@ -15,13 +21,15 @@ visualization of the results.
 
 PARAMETERS
 ----------
-X_train       : training data for explanatory variables, default X_train
+X_data        : explanatory variable data
 
-y_train       : training data for response variable, default y_train
+y_data        : response variable
 
-X_test        : testing data for explanatory variables, default X_test
+standardize   : whether or not to standardize the X data, default True
 
-y_test        : testing data for response variable, default y_test
+pct_test      : test size for training and validation from (0,1), default 0.25
+
+seed          : random seed to be used in algorithm, default 802
 
 response_type : type of neighbors algorithm to use, default 'reg'
     Use 'reg' for regression (KNeighborsRegressor)
@@ -30,13 +38,31 @@ response_type : type of neighbors algorithm to use, default 'reg'
 max_neighbors : maximum number of neighbors in exhaustive search, default 20
 
 show_viz      : display or surpress k-neigbors visualization, default True
-"""
+"""    
     
+    
+    if standardize == True:
+        # optionally standardizing X_data
+        scaler             = StandardScaler()
+        scaler.fit(X_data)
+        X_scaled           = scaler.transform(X_data)
+        X_scaled_df        = pd.DataFrame(X_scaled)
+        X_data             = X_scaled_df
+
+
+
+    # train-test split
+    X_train, X_test, y_train, y_test = train_test_split(X_data,
+                                                        y_data,
+                                                        test_size = pct_test,
+                                                        random_state = seed)
+
+
     # creating lists for training set accuracy and test set accuracy
     training_accuracy = []
     test_accuracy = []
-
-
+    
+    
     # setting neighbor range
     neighbors_settings = range(1, max_neighbors + 1)
 
@@ -75,4 +101,5 @@ show_viz      : display or surpress k-neigbors visualization, default True
     
     
     # returning optimal number of neighbors
-    return test_accuracy.index(max(test_accuracy)) + 1
+    print(f"The optimal number of neighbors is: {test_accuracy.index(max(test_accuracy))+1}")
+    return X_train
