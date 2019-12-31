@@ -102,4 +102,4 @@ show_viz      : display or surpress k-neigbors visualization, default True
     
     # returning optimal number of neighbors
     print(f"The optimal number of neighbors is: {test_accuracy.index(max(test_accuracy))+1}")
-    return X_train
+    return test_accuracy.index(max(test_accuracy))+1
