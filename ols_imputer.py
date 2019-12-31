@@ -12,6 +12,31 @@ def ols_imputer(X_data,
                 AVST = True,
                 pct_test=0.25,
                 seed=802,):
+    
+        """
+Uses stepwise selection to determine which explanatory variables are
+significant based on p-values. Outputs list of test set predictions.
+
+PARAMETERS
+----------
+X_data        : explanatory variable data
+
+y_data        : response variable
+
+AVST          : whether or not to use stepwise selection, default True
+
+pct_test      : test size for training and validation from (0,1), default 0.25
+
+seed          : random seed to be used in algorithm, default 802
+
+response_type : type of neighbors algorithm to use, default 'reg'
+    Use 'reg' for regression (KNeighborsRegressor)
+    Use 'class' for classification (KNeighborsClassifier)
+
+max_neighbors : maximum number of neighbors in exhaustive search, default 20
+
+show_viz      : display or surpress k-neigbors visualization, default True
+"""    
 
     
     ####################
@@ -105,4 +130,3 @@ See https://en.wikipedia.org/wiki/Stepwise_regression for the details"""
     print('Testing Score:',  lr.score(X_test, y_test).round(4))
     
     return lr_pred
-  
