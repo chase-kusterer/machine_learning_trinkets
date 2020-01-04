@@ -1,13 +1,8 @@
 # required packages
-import matplotlib.pyplot as plt                      # data visualization
-
-
-# setting X_train to None so the function loads properly
-X_train = None
-
+import matplotlib.pyplot as plt # data visualization
 
 # plot_feature_importances
-def plot_feature_importances(model, train = X_train, export = False):
+def plot_feature_importances(model, train, export = False):
     """
     Plots the importance of features from a CART model.
     
