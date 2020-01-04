@@ -1,5 +1,7 @@
+# required packages
 from sklearn.metrics import confusion_matrix         # confusion matrix
 import seaborn           as sns                      # enhanced data viz
+
 
 # visual_cm
 def visual_cm(true_y, pred_y, labels = None):
